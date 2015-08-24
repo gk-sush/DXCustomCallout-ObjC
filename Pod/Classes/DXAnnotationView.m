@@ -202,6 +202,8 @@
     //Position the new pinView
     self.frame = [self calculateFrame];
     self.pinView.center = self.center;
+    
+    [self setNeedsDisplay];
 }
 
 - (void)setCalloutView:(UIView *)calloutView {
@@ -224,6 +226,7 @@
         }
     }
     [self positionSubviews];
+    [self setNeedsDisplay];
     
 }
 

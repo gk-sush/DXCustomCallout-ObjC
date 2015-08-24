@@ -22,5 +22,6 @@
 
 - (void)hideCalloutView;
 - (void)showCalloutView;
+- (void)showCalloutViewCenteringMapView:(MKMapView *)mapView;
 
 @end

@@ -80,7 +80,6 @@
         }
         
         
-        [annotationView showCalloutViewCenteringMapView:mapView];
         return annotationView;
     }
     return nil;
@@ -95,7 +94,7 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     if ([view isKindOfClass:[DXAnnotationView class]]) {
-        [((DXAnnotationView *)view)showCalloutView];
+        [((DXAnnotationView *)view)showCalloutViewCenteringMapView:mapView];
         view.layer.zPosition = 0;
     }
 }

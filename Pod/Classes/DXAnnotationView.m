@@ -83,10 +83,10 @@
         UITouch *touch = [touches anyObject];
         // toggle visibility
         if (touch.view == self.pinView) {
-            if (self.calloutView.isHidden) {
-                [self showCalloutView];
-            } else {
-                [self hideCalloutView];
+            
+            //Don't do nothing if pinView has been touched when calloutView is not showed, the didSelectAnnotationView will be called by the system
+            if (!self.calloutView.isHidden) {
+               [self hideCalloutView];
             }
         } else if (touch.view == self.calloutView) {
             [self showCalloutView];
@@ -129,12 +129,23 @@
 
 
 - (void)showCalloutViewCenteringMapView:(MKMapView *)mapView {
-
-    //Center the mapView in order to show the calloutView
-    CLLocationCoordinate2D newCenter=[mapView convertPoint:self.calloutView.center toCoordinateFromView:self.calloutView.superview];
-    [mapView setCenterCoordinate:newCenter animated:YES];
     
-    [self showCalloutView];
+    //Center the mapView in order to show the calloutView
+    CLLocationCoordinate2D newCenter = [mapView convertPoint:self.calloutView.center toCoordinateFromView:self.calloutView.superview];
+    
+    //[mapView setCenterCoordinate:newCenter animated:YES];
+    
+    
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseIn
+                     animations:^{
+                         [mapView setCenterCoordinate:newCenter];
+                     } completion:^(BOOL finished) {
+                         [self showCalloutView];
+                     }];
+    
+    
 }
 
 - (void)showCalloutView {

@@ -81,10 +81,13 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_hasCalloutView) {
         UITouch *touch = [touches anyObject];
-
         
         if(self.delegate) {
-            [self.delegate annotationView:self didReceiveTouch:touch.view];
+            if ([touch.view isDescendantOfView:self.calloutView]) {
+                [self.delegate annotationViewDiDSelectCalloutView:self];
+            }else if([touch.view isDescendantOfView:self.pinView]) {
+                [self.delegate annotationViewDidSelectPinView:self];
+            }
         }else {
             //Default logic here
             // toggle visibility

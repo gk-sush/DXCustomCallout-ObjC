@@ -31,6 +31,7 @@
 
 @protocol DXAnnotaionViewDelegate <NSObject>
 
-- (void)annotationView:(DXAnnotationView *)annotationView didReceiveTouch:(UIView *)touchedView;
+- (void)annotationViewDidSelectPinView:(DXAnnotationView *)annotationView;
+- (void)annotationViewDiDSelectCalloutView:(DXAnnotationView *)annotationView;
 
 @end

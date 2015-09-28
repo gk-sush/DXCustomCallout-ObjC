@@ -1,14 +1,14 @@
 PODS:
-  - DXCustomCallout-ObjC (0.1.0)
+  - DXCustomCallout-ObjC (0.2.0)
 
 DEPENDENCIES:
   - DXCustomCallout-ObjC (from `../`)
 
 EXTERNAL SOURCES:
   DXCustomCallout-ObjC:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
-  DXCustomCallout-ObjC: 325e49ec051af01a70f1d0992790f05b51fff6ce
+  DXCustomCallout-ObjC: fb223603ee148365de51c2d69bb10443943ff89b
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.37.2

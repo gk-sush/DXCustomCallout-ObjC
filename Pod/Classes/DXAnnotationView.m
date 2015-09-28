@@ -132,7 +132,8 @@
 
     //Center the mapView in order to show the calloutView
     CLLocationCoordinate2D newCenter=[mapView convertPoint:self.calloutView.center toCoordinateFromView:self.calloutView.superview];
-    [mapView setCenterCoordinate:newCenter animated:NO];
+    [mapView setCenterCoordinate:newCenter animated:YES];
+    
     [self showCalloutView];
 }
 

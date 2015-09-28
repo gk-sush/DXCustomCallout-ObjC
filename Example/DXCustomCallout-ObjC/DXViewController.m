@@ -80,6 +80,7 @@
         }
         
         
+        [annotationView showCalloutViewCenteringMapView:mapView];
         return annotationView;
     }
     return nil;

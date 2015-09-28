@@ -81,18 +81,27 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_hasCalloutView) {
         UITouch *touch = [touches anyObject];
-        // toggle visibility
-        if (touch.view == self.pinView) {
-            
-            //Don't do nothing if pinView has been touched when calloutView is not showed, the didSelectAnnotationView will be called by the system
-            if (!self.calloutView.isHidden) {
-               [self hideCalloutView];
+
+        
+        if(self.delegate) {
+            [self.delegate annotationView:self didReceiveTouch:touch.view];
+        }else {
+            //Default logic here
+            // toggle visibility
+            if (touch.view == self.pinView) {
+                if (self.calloutView.isHidden) {
+                    [self showCalloutView];
+                }else {
+                    [self hideCalloutView];
+                }
+            } else if (touch.view == self.calloutView) {
+                [self showCalloutView];
+            } else {
+                [self hideCalloutView];
             }
-        } else if (touch.view == self.calloutView) {
-            [self showCalloutView];
-        } else {
-            [self hideCalloutView];
         }
+        
+        
     }
 }
 
@@ -127,7 +136,7 @@
     }
 }
 
-
+/*
 - (void)showCalloutViewCenteringMapView:(MKMapView *)mapView {
     
     //Center the mapView in order to show the calloutView
@@ -147,6 +156,7 @@
     
     
 }
+*/
 
 - (void)showCalloutView {
     if (_hasCalloutView) {

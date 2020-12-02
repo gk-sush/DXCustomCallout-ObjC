@@ -50,7 +50,7 @@
                 [self roundifyCallout];
             }
         }
-        [self positionSubviews];
+        [self relayoutFrame];
     }
     return self;
 }
@@ -62,7 +62,7 @@
 - (void)positionSubviews {
     self.pinView.center = self.center;
     if (_hasCalloutView) {
-        CGRect frame = self.calloutView.frame;
+        CGRect frame = CGRectMake(0, 0, 288, 60);
         frame.origin.y = -frame.size.height - self.settings.calloutOffset;
         frame.origin.x = (self.frame.size.width - frame.size.width) / 2.0;
         self.calloutView.frame = frame;
@@ -76,36 +76,6 @@
 - (void)addCalloutBorder {
     self.calloutView.layer.borderWidth = self.settings.calloutBorderWidth;
     self.calloutView.layer.borderColor = self.settings.calloutBorderColor.CGColor;
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (_hasCalloutView) {
-        UITouch *touch = [touches anyObject];
-        
-        if(self.delegate) {
-            if ([touch.view isDescendantOfView:self.calloutView]) {
-                [self.delegate annotationViewDiDSelectCalloutView:self];
-            }else if([touch.view isDescendantOfView:self.pinView]) {
-                [self.delegate annotationViewDidSelectPinView:self];
-            }
-        }else {
-            //Default logic here
-            // toggle visibility
-            if (touch.view == self.pinView) {
-                if (self.calloutView.isHidden) {
-                    [self showCalloutView];
-                }else {
-                    [self hideCalloutView];
-                }
-            } else if (touch.view == self.calloutView) {
-                [self showCalloutView];
-            } else {
-                [self hideCalloutView];
-            }
-        }
-        
-        
-    }
 }
 
 - (void)hideCalloutView {
@@ -139,28 +109,6 @@
     }
 }
 
-/*
-- (void)showCalloutViewCenteringMapView:(MKMapView *)mapView {
-    
-    //Center the mapView in order to show the calloutView
-    CLLocationCoordinate2D newCenter = [mapView convertPoint:self.calloutView.center toCoordinateFromView:self.calloutView.superview];
-    
-    //[mapView setCenterCoordinate:newCenter animated:YES];
-    
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseIn
-                     animations:^{
-                         [mapView setCenterCoordinate:newCenter];
-                     } completion:^(BOOL finished) {
-                         [self showCalloutView];
-                     }];
-    
-    
-}
-*/
-
 - (void)showCalloutView {
     if (_hasCalloutView) {
         if (self.calloutView.isHidden) {
@@ -188,6 +136,12 @@
             }
         }
     }
+}
+
+#pragma mark - relayout
+- (void)relayoutFrame {
+    self.frame = [self calculateFrame];
+    [self positionSubviews];
 }
 
 #pragma mark - validate settings -
@@ -221,47 +175,6 @@
     BOOL isCallout = (CGRectContainsPoint(self.calloutView.frame, point));
     BOOL isPin = (CGRectContainsPoint(self.pinView.frame, point));
     return isCallout || isPin;
-}
-
-#pragma mark - PinView
-
-- (void)setPinView:(UIView *)pinView {
-    //Removing old pinView
-    [_pinView removeFromSuperview];
-    
-    //Adding new pinView to the view's hierachy
-    _pinView = pinView;
-    [self addSubview:_pinView];
-    
-    //Position the new pinView
-    self.frame = [self calculateFrame];
-    self.pinView.center = self.center;
-    
-    [self setNeedsDisplay];
-}
-
-- (void)setCalloutView:(UIView *)calloutView {
-    //Removing old calloutView
-    [_calloutView removeFromSuperview];
-    
-    //Adding new calloutView to the view's hierachy
-    _calloutView = calloutView;
-    [self addSubview:_calloutView];
-    
-    self.calloutView.hidden = YES;
-    
-    //Adding Border
-    if (_hasCalloutView) {
-        if (self.settings.shouldAddCalloutBorder) {
-            [self addCalloutBorder];
-        }
-        if (self.settings.shouldRoundifyCallout) {
-            [self roundifyCallout];
-        }
-    }
-    [self positionSubviews];
-    [self setNeedsDisplay];
-    
 }
 
 @end

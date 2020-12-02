@@ -7,16 +7,12 @@
 //
 
 #import <MapKit/MapKit.h>
-
-@protocol DXAnnotaionViewDelegate;
-
 @class DXAnnotationSettings;
 
 @interface DXAnnotationView : MKAnnotationView
 
 @property(nonatomic, strong) UIView *pinView;
 @property(nonatomic, strong) UIView *calloutView;
-@property(nonatomic, weak) id <DXAnnotaionViewDelegate> delegate;
 
 - (instancetype)initWithAnnotation:(id<MKAnnotation>)annotation
                    reuseIdentifier:(NSString *)reuseIdentifier
@@ -27,11 +23,6 @@
 - (void)hideCalloutView;
 - (void)showCalloutView;
 
-@end
-
-@protocol DXAnnotaionViewDelegate <NSObject>
-
-- (void)annotationViewDidSelectPinView:(DXAnnotationView *)annotationView;
-- (void)annotationViewDiDSelectCalloutView:(DXAnnotationView *)annotationView;
+- (void)relayoutFrame;
 
 @end
